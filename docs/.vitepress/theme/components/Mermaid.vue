@@ -37,6 +37,9 @@ async function render() {
     startOnLoad: false,
     securityLevel: 'strict',
     theme: 'base',
+    // Flat, like a blueprint: mermaid 12 defaults to gradient borders, a CSS
+    // drop-shadow on every node, and (with the "neo" look) SVG shadow filters.
+    look: 'classic',
     darkMode: isDark.value,
     fontFamily,
     themeVariables: {
@@ -48,6 +51,8 @@ async function render() {
       tertiaryColor: cssVar('--vp-c-bg'),
       lineColor: cssVar('--vp-c-brand-1'),
       textColor: cssVar('--vp-c-text-1'),
+      useGradient: false,
+      dropShadow: 'none',
     },
   })
   try {

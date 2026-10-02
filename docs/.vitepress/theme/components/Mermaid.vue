@@ -52,6 +52,22 @@ async function render() {
       tertiaryColor: cssVar('--vp-c-bg'),
       lineColor: cssVar('--vp-c-brand-1'),
       textColor: cssVar('--vp-c-text-1'),
+      // ER attribute rows. The base theme defaults them near-white in every
+      // mode (#ffffff / #f2f2f2, and rowOdd = primaryColor lightened 75%),
+      // unreadable under dark-mode text. mermaid 12 reads row*; the
+      // attributeBackground* pair is the older name, still read in places.
+      rowOdd: cssVar('--vp-c-bg-soft'),
+      rowEven: cssVar('--vp-c-bg-alt'),
+      attributeBackgroundColorOdd: cssVar('--vp-c-bg-soft'),
+      attributeBackgroundColorEven: cssVar('--vp-c-bg-alt'),
+      // Sequence-diagram notes default to sticky-note yellow in every mode.
+      noteBkgColor: cssVar('--vp-c-bg-soft'),
+      noteTextColor: cssVar('--vp-c-text-1'),
+      noteBorderColor: cssVar('--vp-c-brand-1'),
+      // autonumber digits default to the inverse of lineColor (orange, from
+      // cyan). The circle is filled with the text colour, so the page
+      // background reads cleanly on it in both modes.
+      sequenceNumberColor: cssVar('--vp-c-bg'),
       useGradient: false,
       // A light lift in the same style as ChamferedCard's shadow, half its
       // size — not mermaid's default (an opaque grey 1px 2px 2px that reads

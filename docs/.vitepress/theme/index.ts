@@ -3,6 +3,7 @@ import './style/index.css'
 import ChamferedCard from './components/ChamferedCard.vue'
 import TitleBlock from './components/TitleBlock.vue'
 import NotFound from './components/NotFound.vue'
+import Mermaid from './components/Mermaid.vue'
 import { h } from 'vue'
 import { useData } from 'vitepress'
 
@@ -21,5 +22,6 @@ export default {
     enhanceApp({ app }) {
         app.component('ChamferedCard', ChamferedCard)
         app.component('TitleBlock', TitleBlock)
+        app.component('Mermaid', Mermaid)
     }
 }

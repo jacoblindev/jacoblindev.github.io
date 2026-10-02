@@ -5,6 +5,21 @@ export default defineConfig({
   title: "JLDocs",
   lang: 'en-US',
   appearance: true, // Enabling appearance toggle
+  markdown: {
+    // ```mermaid fences become <Mermaid>, rendered client-side by
+    // theme/components/Mermaid.vue. The source is URI-encoded so braces and
+    // quotes in diagram syntax never reach Vue's template compiler.
+    config(md) {
+      const fence = md.renderer.rules.fence!
+      md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+        const token = tokens[idx]
+        if (token.info.trim() === 'mermaid') {
+          return `<Mermaid code="${encodeURIComponent(token.content)}" />`
+        }
+        return fence(tokens, idx, options, env, self)
+      }
+    }
+  },
   head: [
     ['link', {rel: 'preconnect', href: 'https://fonts.googleapis.com'}],
     ['link', {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: ''}],

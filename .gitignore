@@ -4,3 +4,6 @@ docs/.vitepress/dist/
 .DS_Store
 .idea/
 .vscode/
+
+# local-only pages (demos, scratch) — never committed, never deployed
+docs/demo/

@@ -1,24 +1,32 @@
-# Build the VitePress site and publish it to GitHub Pages on every push to main.
+# Build the VitePress site; publish it to GitHub Pages only from main.
 # Based on https://vitepress.dev/guide/deploy#github-pages
+#
+#   pull request into main → build only, as a check (nothing is published)
+#   push to main (a merge) → build + deploy
+#
+# Work happens on a branch named after its studio folder (post/<slug>,
+# site/<slug>); pushing a branch runs nothing, opening the PR runs the check.
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
+# One deploy at a time, never cancelled mid-flight. PR checks get their own
+# group per branch, and a newer push to the same PR cancels the stale check.
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('check-{0}', github.ref) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read # configure-pages reads the site's Pages settings
     steps:
       - uses: actions/checkout@v7
         with:
@@ -28,18 +36,24 @@ jobs:
           node-version: 24
           cache: npm
       - uses: actions/configure-pages@v6
+        if: github.event_name != 'pull_request'
       - run: npm ci
       - run: npm run docs:build
       - uses: actions/upload-pages-artifact@v5
+        if: github.event_name != 'pull_request'
         with:
           path: docs/.vitepress/dist
 
   deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5

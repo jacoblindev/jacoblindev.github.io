@@ -37,9 +37,10 @@ async function render() {
     startOnLoad: false,
     securityLevel: 'strict',
     theme: 'base',
-    // Flat, like a blueprint: mermaid 12 defaults to gradient borders, a CSS
-    // drop-shadow on every node, and (with the "neo" look) SVG shadow filters.
-    look: 'classic',
+    // "neo" is mermaid 12's default look, and the only one that applies
+    // themeVariables.dropShadow — "classic" ignores it. Its gradient borders
+    // are switched off separately below (useGradient).
+    look: 'neo',
     darkMode: isDark.value,
     fontFamily,
     themeVariables: {
@@ -52,7 +53,10 @@ async function render() {
       lineColor: cssVar('--vp-c-brand-1'),
       textColor: cssVar('--vp-c-text-1'),
       useGradient: false,
-      dropShadow: 'none',
+      // A light lift in the same style as ChamferedCard's shadow, half its
+      // size — not mermaid's default (an opaque grey 1px 2px 2px that reads
+      // as a halo on the dark palette). Dark mode needs more alpha to show.
+      dropShadow: `drop-shadow(0 2px 3px rgba(0, 0, 0, ${isDark.value ? 0.5 : 0.18}))`,
     },
   })
   try {

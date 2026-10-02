@@ -1,0 +1,55 @@
+:root {
+  /* Light Mode: The Studio (Paper & Ink) */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f9f9f9;
+  --vp-c-bg-soft: #f0f0f0;
+
+  --vp-c-text-1: #1a1a1a;
+  --vp-c-text-2: #4a4a4a;
+  --vp-c-text-3: #8e8e8e;
+
+  /* Brand: Architectural Blue */
+  --vp-c-brand-1: #005A9C;
+  --vp-c-brand-2: #004578;
+  --vp-c-brand-3: #003050;
+
+  /* Accent: Safety Orange (Custom) */
+  --vp-c-accent: #FF5F15;
+
+  /* Borders */
+  --vp-c-border: #e0e0e0;
+  --vp-c-divider: rgba(0, 0, 0, 0.3);
+  --vp-c-gutter: #e0e0e0;
+
+  /* Grid Colors (Light) */
+  --vp-c-grid-major: rgba(0, 0, 0, 0.04); /* Slightly stronger for major lines */
+  --vp-c-grid-minor: rgba(0, 0, 0, 0.02); /* Very faint for minor lines */
+}
+
+.dark {
+  /* Dark Mode: The Blueprint (Prussian Blue & Chalk) */
+  --vp-c-bg: #0B1C2C;
+  --vp-c-bg-alt: #081522;
+  --vp-c-bg-soft: #162a3f;
+
+  --vp-c-text-1: #E6EEF8;
+  --vp-c-text-2: #B0C4DE;
+  --vp-c-text-3: #64748b;
+
+  /* Brand: Bright Cyan / Electric Blue */
+  --vp-c-brand-1: #38BDF8;
+  --vp-c-brand-2: #0284C7;
+  --vp-c-brand-3: #0369a1;
+
+  /* Accent: Cyan */
+  --vp-c-accent: #38BDF8;
+
+  /* Borders */
+  --vp-c-border: rgba(255, 255, 255, 0.3);
+  --vp-c-divider: rgba(255, 255, 255, 0.35);
+  --vp-c-gutter: rgba(255, 255, 255, 0.2);
+
+  /* Grid Colors (Dark) */
+  --vp-c-grid-major: rgba(255, 255, 255, 0.08);
+  --vp-c-grid-minor: rgba(255, 255, 255, 0.04);
+}

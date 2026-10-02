@@ -1,0 +1,119 @@
+/* Typography Overrides */
+:root {
+  --vp-font-family-base: 'Inter', system-ui, sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', 'Space Mono', monospace;
+}
+
+/* Headings: Technical & Structural */
+h1, h2, h3, h4, h5, h6, .title {
+  font-family: var(--vp-font-family-mono), monospace;
+  letter-spacing: -0.02em;
+}
+
+/* Navigation: Uppercase & Technical */
+.VPNavBarTitle, .VPNavBarMenuLink, .VPNavBarMenuGroup {
+  font-family: var(--vp-font-family-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9em;
+}
+
+/* Grid Background Texture - Dual Layer System */
+body {
+  background-color: var(--vp-c-bg);
+  background-image:
+    /* Major Grid (100px) */
+    linear-gradient(var(--vp-c-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--vp-c-grid-major) 1px, transparent 1px),
+    /* Minor Grid (20px) */
+    linear-gradient(var(--vp-c-grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--vp-c-grid-minor) 1px, transparent 1px);
+  background-size:
+    100px 100px, 100px 100px,
+    20px 20px, 20px 20px;
+  background-position: center top;
+}
+
+/* Previous/Next Buttons: Remove Border */
+.VPDocFooter .pager-link {
+  border: none !important;
+  border-radius: 0 !important;
+  /*background-color: var(--vp-c-bg-soft);*/
+  clip-path: polygon(
+    15px 0%, 100% 0%,
+    100% calc(100% - 15px), calc(100% - 15px) 100%,
+    0% 100%, 0% 15px
+  );
+}
+
+.VPDocFooter .pager-link:hover {
+  background-color: var(--vp-c-bg-alt);
+}
+
+/* Chamfer Utility (The "Cut") */
+.tectonic-cut {
+  clip-path: polygon(
+    20px 0%, 100% 0%,
+    100% calc(100% - 20px), calc(100% - 20px) 100%,
+    0% 100%, 0% 20px
+  );
+  transition: clip-path 0.3s ease;
+}
+
+/* Apply Chamfer to Feature Cards (Home Page) */
+.VPFeature {
+  border-radius: 0 !important; /* Remove default rounding */
+  clip-path: polygon(
+    15px 0%, 100% 0%,
+    100% calc(100% - 15px), calc(100% - 15px) 100%,
+    0% 100%, 0% 15px
+  );
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+}
+
+/* Apply Chamfer to Primary Buttons */
+.VPButton.brand {
+  border-radius: 0 !important;
+  clip-path: polygon(
+    10px 0%, 100% 0%,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    0% 100%, 0% 10px
+  );
+}
+
+/* Apply Chamfer to Alt Buttons */
+.VPButton.alt {
+  border-radius: 0 !important;
+  clip-path: polygon(
+    10px 0%, 100% 0%,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    0% 100%, 0% 10px
+  );
+}
+
+/* Apply Chamfer to Code Blocks */
+.vp-doc div[class*='language-'] {
+  border-radius: 0 !important;
+  clip-path: polygon(
+    15px 0%, 100% 0%,
+    100% calc(100% - 15px), calc(100% - 15px) 100%,
+    0% 100%, 0% 15px
+  );
+}
+
+/* Apply Chamfer to Alert Blocks (Custom Containers) */
+.custom-block {
+  border-radius: 0 !important;
+  clip-path: polygon(
+    15px 0%, 100% 0%,
+    100% calc(100% - 15px), calc(100% - 15px) 100%,
+    0% 100%, 0% 15px
+  );
+}
+
+/* Content Width Constraint for Readability */
+.vp-doc {
+  max-width: 75ch; /* Approx 700-800px */
+  margin: 0 auto;
+}

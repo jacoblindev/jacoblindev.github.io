@@ -117,3 +117,9 @@ body {
   max-width: 75ch; /* Approx 700-800px */
   margin: 0 auto;
 }
+
+/* The TitleBlock's DATE is the page's last-updated date; hide the default
+   theme's own "Last updated" line so it is not shown twice. */
+.VPDocFooter .last-updated {
+  display: none;
+}

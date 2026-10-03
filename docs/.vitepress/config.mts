@@ -33,6 +33,8 @@ export default defineConfigWithTheme<ThemeConfig>({
   title: "JLNotes",
   description: 'Notes on software development — things I build, break and learn, at work and off it. Written to think out loud, and to remember.',
   lang: 'en-US',
+  // Each page's last git commit date, shown as DATE in the TitleBlock footer.
+  lastUpdated: true,
   appearance: true, // Enabling appearance toggle
   markdown: {
     // ```mermaid fences become <Mermaid>, rendered client-side by

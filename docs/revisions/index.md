@@ -57,7 +57,7 @@ Newest first. One row per change a reader could notice.
 
 | Rev | Date | Change |
 |:---:|---|---|
-| **D** | 2026-10-03 | This page. The footer's `REV` now links here and is read from this table at build time, so it cannot drift. |
+| **D** | 2026-10-03 | This page. The footer's `REV` now links here and is read from this table at build time, so it cannot drift; its `DATE` is the page's last commit, where it used to show the visitor's today. |
 | **C** | 2026-10-03 | Link previews: Open Graph tags from each page's frontmatter, a share card that survives LinkedIn's thumbnail, a favicon, and the name JLNotes. ([#2](https://github.com/jacoblindev/jacoblindev.github.io/pull/2), [#3](https://github.com/jacoblindev/jacoblindev.github.io/pull/3), [#4](https://github.com/jacoblindev/jacoblindev.github.io/pull/4)) |
 | **B** | 2026-10-02 | Diagrams: ` ```mermaid ` blocks rendered client-side by a custom component, loaded only on pages that have one, and themed from the palette in both modes. ([af6a00a](https://github.com/jacoblindev/jacoblindev.github.io/commit/af6a00a)) |
 | **A** | 2026-10-02 | First issue. The Digital Tectonics theme on VitePress 2 in a fresh repo, English only, one section: Notes. Deployed to GitHub Pages; pull requests build as a check. ([74b2b5e](https://github.com/jacoblindev/jacoblindev.github.io/commit/74b2b5e), [#1](https://github.com/jacoblindev/jacoblindev.github.io/pull/1)) |

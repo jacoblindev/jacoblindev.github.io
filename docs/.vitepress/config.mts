@@ -1,7 +1,7 @@
 import {createHash} from 'node:crypto'
 import {existsSync, readFileSync} from 'node:fs'
 import {fileURLToPath} from 'node:url'
-import {defineConfig, type HeadConfig} from 'vitepress'
+import {defineConfigWithTheme, type DefaultTheme, type HeadConfig} from 'vitepress'
 
 // Absolute origin for link-preview tags: og:url and og:image must be absolute.
 const SITE = 'https://jacoblindev.github.io'
@@ -17,11 +17,24 @@ function versioned(publicPath: string): string {
   return `${publicPath}?v=${hash}`
 }
 
+// The footer's REV is the newest row of the revision table on /revisions/
+// (newest first), read at build time so there is no second place to bump.
+function currentRevision(): string {
+  const page = readFileSync(fileURLToPath(new URL('../revisions/index.md', import.meta.url)), 'utf8')
+  const rev = page.match(/^\|\s*\*\*([A-Z]+)\*\*\s*\|/m)?.[1]
+  if (!rev) throw new Error('docs/revisions/index.md: no revision row like "| **A** |" found')
+  return rev
+}
+
+export type ThemeConfig = DefaultTheme.Config & {revision: string}
+
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default defineConfigWithTheme<ThemeConfig>({
   title: "JLNotes",
   description: 'Notes on software development — things I build, break and learn, at work and off it. Written to think out loud, and to remember.',
   lang: 'en-US',
+  // Each page's last git commit date, shown as DATE in the TitleBlock footer.
+  lastUpdated: true,
   appearance: true, // Enabling appearance toggle
   markdown: {
     // ```mermaid fences become <Mermaid>, rendered client-side by
@@ -85,8 +98,10 @@ export default defineConfig({
     ]
   },
   themeConfig: {
+    revision: currentRevision(),
     nav: [
-      {text: 'Notes', link: '/notes/'}
+      {text: 'Notes', link: '/notes/'},
+      {text: 'Revisions', link: '/revisions/'}
     ],
     sidebar: {
       '/notes/': [

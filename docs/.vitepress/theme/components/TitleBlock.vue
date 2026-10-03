@@ -2,14 +2,17 @@
 import {useData, useRoute} from 'vitepress'
 import {computed} from 'vue'
 
-const {site, page, frontmatter} = useData()
+const {site, page, frontmatter, theme} = useData()
 const route = useRoute()
 
+// The page's last commit date, in ISO form like the revision table: the same
+// string at build time and in every visitor's locale. A page with no commit
+// yet (only in `docs:dev`) shows a dash rather than today's date.
 const lastUpdated = computed(() => {
   if (page.value.lastUpdated) {
-    return new Date(page.value.lastUpdated).toLocaleDateString()
+    return new Date(page.value.lastUpdated).toISOString().slice(0, 10)
   }
-  return new Date().toLocaleDateString()
+  return '—'
 })
 
 const currentYear = new Date().getFullYear()
@@ -40,7 +43,7 @@ const isDoc = computed(() => frontmatter.value.layout !== 'home')
         </div>
         <div class="tb-sub">
           <span class="tb-label">REV</span>
-          <span class="tb-value">v1.0</span>
+          <a class="tb-value tb-link" href="/revisions/" title="Revision history">{{ theme.revision }}</a>
         </div>
         <div class="tb-sub">
           <span class="tb-label">COPYRIGHT</span>
@@ -106,14 +109,29 @@ const isDoc = computed(() => frontmatter.value.layout !== 'home')
   color: var(--vp-c-text-1);
 }
 
+.tb-link {
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.tb-link:hover {
+  color: var(--vp-c-brand-1);
+}
+
 .path {
   word-break: break-all;
 }
 
 .meta {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: auto auto auto;
+  justify-content: start;
   gap: 1rem;
+}
+
+/* An ISO date is one token; never break it. */
+.meta .tb-value {
+  white-space: nowrap;
 }
 
 .tb-sub {

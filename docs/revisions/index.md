@@ -1,6 +1,6 @@
 ---
 title: Revisions
-description: How this site is built — the stack, the design and why it looks the way it does, every change that shipped, and what is still wrong with it.
+description: How this site is built — the stack, the design and why it looks the way it does, every change that shipped, and what each choice costs.
 ---
 
 # Revisions
@@ -20,8 +20,6 @@ at the revision table on a drawing.
   request builds as a check; a merge to `main` builds and deploys, in about a
   minute. Nothing reaches the live site without a green build.
 - **Source:** [github.com/jacoblindev/jacoblindev.github.io](https://github.com/jacoblindev/jacoblindev.github.io).
-  Posts are drafted in a separate, private repo and arrive here by pull request
-  like any other change.
 
 ## Design {#design}
 
@@ -43,41 +41,37 @@ the title block — says "planned" before a word is read.
 - **A title block for a footer.** Project, sheet (the page's path), date and
   revision, laid out like the corner of a drawing.
 - **The favicon is a point plotted on the grid** — a cyan square on a faint
-  3×3 grid in a chamfered tile. A `JL` monogram was tried first and read as a
-  software company's app icon; the grid point was the sharpest of four
-  letterless candidates at 16px and the one mark that is only this site's.
+  3×3 grid in a chamfered tile. No letters: a point stays sharp at 16px, and
+  it is a mark only this site has.
 - **Diagrams are text.** Mermaid blocks render in the browser, themed from the
   same CSS variables, so they follow light and dark mode and stay editable.
 
 ## Revision table {#table}
 
-Newest first. One row per change a reader could notice.
-
 <div class="revision-table">
 
 | Rev | Date | Change |
 |:---:|---|---|
-| **D** | 2026-10-03 | This page. The footer's `REV` now links here and is read from this table at build time, so it cannot drift; its `DATE` is the page's last commit, where it used to show the visitor's today. |
-| **C** | 2026-10-03 | Link previews: Open Graph tags from each page's frontmatter, a share card that survives LinkedIn's thumbnail, a favicon, and the name JLNotes. ([#2](https://github.com/jacoblindev/jacoblindev.github.io/pull/2), [#3](https://github.com/jacoblindev/jacoblindev.github.io/pull/3), [#4](https://github.com/jacoblindev/jacoblindev.github.io/pull/4)) |
-| **B** | 2026-10-02 | Diagrams: ` ```mermaid ` blocks rendered client-side by a custom component, loaded only on pages that have one, and themed from the palette in both modes. ([af6a00a](https://github.com/jacoblindev/jacoblindev.github.io/commit/af6a00a)) |
-| **A** | 2026-10-02 | First issue. The Digital Tectonics theme on VitePress 2 in a fresh repo, English only, one section: Notes. Deployed to GitHub Pages; pull requests build as a check. ([74b2b5e](https://github.com/jacoblindev/jacoblindev.github.io/commit/74b2b5e), [#1](https://github.com/jacoblindev/jacoblindev.github.io/pull/1)) |
+| **D** | 2026-10-03 | This page. The footer's `REV` links here, and its `DATE` shows when each page last changed. |
+| **C** | 2026-10-03 | Link previews: a shared link shows the page's title, description and a card image. A favicon, and the name JLNotes. ([#2](https://github.com/jacoblindev/jacoblindev.github.io/pull/2), [#3](https://github.com/jacoblindev/jacoblindev.github.io/pull/3), [#4](https://github.com/jacoblindev/jacoblindev.github.io/pull/4)) |
+| **B** | 2026-10-02 | Diagrams, written as text and drawn in the site's colours in light and dark mode. ([af6a00a](https://github.com/jacoblindev/jacoblindev.github.io/commit/af6a00a)) |
+| **A** | 2026-10-02 | First issue: the Digital Tectonics theme on VitePress 2, in English, with one section — Notes. ([74b2b5e](https://github.com/jacoblindev/jacoblindev.github.io/commit/74b2b5e), [#1](https://github.com/jacoblindev/jacoblindev.github.io/pull/1)) |
 
 </div>
 
-## Known issues {#known-issues}
+## Trade-offs {#trade-offs}
 
-- **VitePress 2 is still in alpha.** An upgrade can break the theme. Versions
-  are locked and bumped on purpose, one at a time.
-- **The theme overrides VitePress's defaults with `!important`** to remove
-  rounding. A restyle of the default theme can undo it silently; check corners
-  after every VitePress bump.
-- **The build warns about chunks over 500 kB.** They are Mermaid's own
-  lazily loaded pieces, fetched only by a page with a diagram. The warning is
-  left on, because raising the limit would also hide real growth in the main
-  bundle.
-- **No ARIA attributes on the custom components yet.** A gap, not a choice.
-- **Not yet checked on a real phone.** Narrow widths were checked in a
-  headless browser only.
+- **A pre-release framework.** VitePress 2 is still in alpha, so an upgrade
+  can break the theme. Upgrades are taken one version at a time.
+- **Restyled, not rebuilt.** The square corners override VitePress's default
+  theme instead of replacing it: far less code to own, but a restyle of the
+  default theme upstream can bring rounding back.
+- **Diagrams are heavy, but only where they are used.** Mermaid's pieces add
+  up to over 2 MB of JavaScript. A page loads them only if it has a diagram;
+  every other page pays nothing.
+- **Diagrams draw in the browser, not at build time.** They appear a moment
+  after the page does. Pre-rendering them to SVG would need a headless browser
+  in the build — more machinery than a few diagrams are worth.
 
 <style>
 /* A date is one token; never break it across lines. */

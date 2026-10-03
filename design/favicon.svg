@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- JL mark. Letters are strokes, not text: a favicon cannot load web fonts. -->
+  <path d="M2 2 H50 L62 14 V62 H2 Z" fill="#0B1C2C" stroke="#38BDF8" stroke-width="3"/>
+  <g fill="none" stroke="#38BDF8" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M28 17 V40 Q28 48 20 48 H15"/>
+    <path d="M38 17 V48 H50"/>
+  </g>
+</svg>

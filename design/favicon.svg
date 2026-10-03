@@ -1,8 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- JL mark. Letters are strokes, not text: a favicon cannot load web fonts. -->
+  <!-- A point plotted on the blueprint grid: one note on a larger drawing.
+       No letters on purpose — a monogram in a coloured tile reads as an app
+       icon (Adobe-style). Chamfered frame and palette as on the site. -->
   <path d="M2 2 H50 L62 14 V62 H2 Z" fill="#0B1C2C" stroke="#38BDF8" stroke-width="3"/>
-  <g fill="none" stroke="#38BDF8" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
-    <path d="M28 17 V40 Q28 48 20 48 H15"/>
-    <path d="M38 17 V48 H50"/>
+  <g stroke="#38BDF8" stroke-opacity="0.45" stroke-width="2">
+    <path d="M22 4 V60 M42 4 V60 M4 24 H60 M4 44 H60"/>
   </g>
+  <rect x="35" y="17" width="14" height="14" fill="#38BDF8"/>
 </svg>

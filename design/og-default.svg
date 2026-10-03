@@ -2,7 +2,9 @@
   <!-- Default link-preview card (og:image), 1200×627 = LinkedIn's 1.91:1.
        Blueprint palette from docs/.vitepress/theme/style/vars.css (dark).
        Grid is the site's 20px / 100px grid, a touch stronger so it survives
-       being shrunk into a feed. Render: design/render.sh -->
+       being shrunk into a feed. Rendered at 2x (2400×1254): LinkedIn often
+       shows link cards as a ~160px thumbnail, so the title is sized to stay
+       legible there and the title block is quieter. Render: design/render.sh -->
   <defs>
     <pattern id="minor" width="20" height="20" patternUnits="userSpaceOnUse">
       <path d="M20 0H0V20" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
@@ -26,18 +28,18 @@
   </g>
 
   <!-- Title -->
-  <text x="80" y="268" font-family="'JetBrains Mono', monospace" font-weight="700"
-        font-size="112" letter-spacing="2" fill="#E6EEF8">JLNOTES</text>
+  <text x="76" y="300" font-family="'JetBrains Mono', monospace" font-weight="700"
+        font-size="168" letter-spacing="2" fill="#E6EEF8">JLNOTES</text>
   <!-- Dimension line under the title -->
-  <g stroke="#38BDF8" stroke-width="1.5">
-    <path d="M80 300 H566"/>
-    <path d="M80 290 V310 M566 290 V310"/>
+  <g stroke="#38BDF8" stroke-width="3">
+    <path d="M80 334 H794"/>
+    <path d="M80 322 V346 M794 322 V346"/>
   </g>
-  <text x="80" y="370" font-family="'JetBrains Mono', monospace" font-size="32" fill="#B0C4DE">Notes on software development —</text>
-  <text x="80" y="414" font-family="'JetBrains Mono', monospace" font-size="32" fill="#B0C4DE">things I build, break and learn.</text>
+  <text x="80" y="398" font-family="'JetBrains Mono', monospace" font-size="32" fill="#B0C4DE">Notes on software development —</text>
+  <text x="80" y="442" font-family="'JetBrains Mono', monospace" font-size="32" fill="#B0C4DE">things I build, break and learn.</text>
 
   <!-- Title block, as in the site's TitleBlock footer -->
-  <g font-family="'JetBrains Mono', monospace">
+  <g font-family="'JetBrains Mono', monospace" opacity="0.7">
     <path d="M40 487 H1160 M360 487 V587 M900 487 V587" stroke="#38BDF8" stroke-width="2" fill="none"/>
     <text x="68"  y="522" font-size="16" letter-spacing="2" fill="#64748B">PROJECT</text>
     <text x="68"  y="560" font-size="26" fill="#E6EEF8">JLNotes</text>

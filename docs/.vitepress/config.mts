@@ -36,6 +36,8 @@ export default defineConfig({
     ['link', {rel: 'icon', type: 'image/png', sizes: '48x48', href: '/favicon-48.png'}],
     ['link', {rel: 'apple-touch-icon', href: '/apple-touch-icon.png'}],
     ['meta', {property: 'og:site_name', content: 'JLNotes'}],
+    // Attribution for crawlers (LinkedIn warns without it); not shown on pages.
+    ['meta', {name: 'author', content: 'Jacob Lin'}],
     ['meta', {name: 'twitter:card', content: 'summary_large_image'}]
   ],
   // Per-page link-preview tags (LinkedIn, Slack, X, iMessage…). A post sets
@@ -63,8 +65,8 @@ export default defineConfig({
       ['meta', {property: 'og:image', content: image}],
       ['meta', {property: 'og:image:alt', content: imageAlt}],
       ...(fm.image ? [] : [
-        ['meta', {property: 'og:image:width', content: '1200'}],
-        ['meta', {property: 'og:image:height', content: '627'}],
+        ['meta', {property: 'og:image:width', content: '2400'}],
+        ['meta', {property: 'og:image:height', content: '1254'}],
       ] as HeadConfig[]),
     ]
   },

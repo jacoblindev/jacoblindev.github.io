@@ -10,11 +10,12 @@ CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 OUT=../docs/public
 tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 
-# shot <svg> <width> <height> <png> [bg]
+# shot <svg> <width> <height> <png> [bg] [scale]
 # bg defaults to the page navy; 'none' gives a transparent PNG, which the
 # 48px favicon needs so its chamfered corner is see-through on any tab colour.
 shot() {
     bg=${5:-#0B1C2C}
+    scale=${6:-1}
     [ "$bg" = none ] && bg=transparent
     {
         echo '<!doctype html><html><head><meta charset="utf-8">'
@@ -24,12 +25,14 @@ shot() {
         cat "$1"
         echo '</body></html>'
     } > "$tmp/page.html"
-    "$CHROME" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+    "$CHROME" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor="$scale" \
         --window-size="$2,$3" --virtual-time-budget=5000 --default-background-color=00000000 \
         --screenshot="$4" "file://$tmp/page.html" 2>/dev/null
 }
 
-shot og-default.svg 1200 627 "$OUT/og-default.png"
+# 2x: 2400×1254. LinkedIn often shrinks link cards to a ~160px thumbnail;
+# downscaling from double the pixels keeps it crisp on high-DPI screens.
+shot og-default.svg 1200 627 "$OUT/og-default.png" "#0B1C2C" 2
 shot favicon.svg 48 48 "$OUT/favicon-48.png" none
 # iOS ignores transparency (it fills black) and rounds the corners itself,
 # so the touch icon keeps the navy fill behind the chamfer.

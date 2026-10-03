@@ -5,8 +5,8 @@ layout: doc
 
 # Notes
 
-Technical notes from designing and integrating systems — what I built, what
-broke, and what I would do differently.
+Notes on software development — things I build, break and learn, at work and
+off it. Written to think out loud, and to remember.
 
 ## Recent Articles
 

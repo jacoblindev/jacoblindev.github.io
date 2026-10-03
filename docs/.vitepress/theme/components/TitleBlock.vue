@@ -2,7 +2,7 @@
 import {useData, useRoute} from 'vitepress'
 import {computed} from 'vue'
 
-const {site, page, frontmatter} = useData()
+const {site, page, frontmatter, theme} = useData()
 const route = useRoute()
 
 const lastUpdated = computed(() => {
@@ -40,7 +40,7 @@ const isDoc = computed(() => frontmatter.value.layout !== 'home')
         </div>
         <div class="tb-sub">
           <span class="tb-label">REV</span>
-          <span class="tb-value">v1.0</span>
+          <a class="tb-value tb-link" href="/revisions/" title="Revision history">{{ theme.revision }}</a>
         </div>
         <div class="tb-sub">
           <span class="tb-label">COPYRIGHT</span>
@@ -104,6 +104,15 @@ const isDoc = computed(() => frontmatter.value.layout !== 'home')
 .tb-value {
   font-weight: 600;
   color: var(--vp-c-text-1);
+}
+
+.tb-link {
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.tb-link:hover {
+  color: var(--vp-c-brand-1);
 }
 
 .path {

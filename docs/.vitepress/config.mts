@@ -1,7 +1,21 @@
+import {createHash} from 'node:crypto'
+import {existsSync, readFileSync} from 'node:fs'
+import {fileURLToPath} from 'node:url'
 import {defineConfig, type HeadConfig} from 'vitepress'
 
 // Absolute origin for link-preview tags: og:url and og:image must be absolute.
 const SITE = 'https://jacoblindev.github.io'
+const PUBLIC = fileURLToPath(new URL('../public', import.meta.url))
+
+// LinkedIn caches a preview image by URL, so a re-rendered image at the same
+// path keeps showing the old one. Append a short content hash for files in
+// docs/public: any change to the file is a new URL, with nothing to remember.
+function versioned(publicPath: string): string {
+  const file = PUBLIC + publicPath
+  if (!existsSync(file)) return publicPath
+  const hash = createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 8)
+  return `${publicPath}?v=${hash}`
+}
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -53,7 +67,7 @@ export default defineConfig({
       .replace(/\.md$/, '')
     const url = SITE + path
     const isPost = /^\/notes\/[^/]+\/$/.test(path)
-    const image = fm.image ? new URL(fm.image, url).href : `${SITE}/og-default.png`
+    const image = new URL(versioned(fm.image ?? '/og-default.png'), url).href
     const imageAlt = fm.imageAlt ?? (fm.image ? pageData.title : 'JLNotes — notes on software development')
 
     return [

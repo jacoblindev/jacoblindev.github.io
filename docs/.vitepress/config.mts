@@ -107,7 +107,9 @@ export default defineConfigWithTheme<ThemeConfig>({
       '/notes/': [
         {
           text: 'Notes',
-          items: []
+          items: [
+            {text: 'Webhooks are not API calls', link: '/notes/webhooks-are-not-api-calls/'}
+          ]
         }
       ]
     },

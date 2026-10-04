@@ -5,7 +5,7 @@ description: A webhook is a contract someone else wrote. Capture a real request 
 
 # Webhooks are not API calls
 
-The first real CYBERBIZ webhook I checked my verifier against failed.
+My verifier rejected the first real CYBERBIZ webhook I checked it against.
 
 It wasn't forged. I was building a receiver that turns a shop's order events
 into messages to the buyer. CYBERBIZ, a Taiwanese e-commerce platform, signs
@@ -58,15 +58,15 @@ your webhook, it makes every one of those decisions for you:
 
 - **How long you have.** [LINE waits 2 seconds](https://developers.line.biz/en/docs/messaging-api/check-webhook-error-statistics/). [Shopify gives you one second](https://shopify.dev/docs/apps/build/webhooks/verify-deliveries)
   to connect and five for the whole request.
-- **What counts as success.** [Shopify:](https://shopify.dev/docs/apps/build/webhooks/verify-deliveries) "Any response outside the 200 range,
+- **What counts as success.** [Shopify](https://shopify.dev/docs/apps/build/webhooks/verify-deliveries): "Any response outside the 200 range,
   including 3XX codes, is treated as an error."
 - **Whether it retries, and for how long.** [Shopify retries up to 8 times](https://shopify.dev/docs/apps/build/webhooks/verify-deliveries)
   over 4 hours, [WhatsApp for up to 7 days](https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/overview), and [GitHub not at all](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/troubleshooting-webhooks).
 - **Order and duplicates.** [Shopify](https://shopify.dev/docs/apps/build/webhooks), [Stripe](https://docs.stripe.com/webhooks), [LINE](https://developers.line.biz/en/docs/messaging-api/receiving-messages/) and [SHOPLINE](https://open-api.docs.shoplineapp.com/docs/implementation-best-practices) all say events
   can arrive out of order and more than once.
 - **Which version of the payload you get.** When your pinned API version
-  expires, Shopify "[falls forward to using the next supported stable](https://shopify.dev/docs/api/admin-rest/usage/versioning)
-  version".
+  expires, Shopify ["falls forward to using the next supported stable
+  version"](https://shopify.dev/docs/api/admin-rest/usage/versioning).
 
 What to do about timeouts, retries and duplicates is the next post in this
 series. This one is about what comes before all of them: knowing what the
@@ -96,7 +96,7 @@ messaging channels:
 | [LINE](https://developers.line.biz/en/docs/messaging-api/verify-webhook-signature/) | a signed POST with no events, when you press Verify | `x-line-signature` | base64 | the raw body |
 | [WhatsApp](https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/create-webhook-endpoint) | a GET: check `hub.verify_token`, echo `hub.challenge` | `X-Hub-Signature-256`, prefixed `sha256=` | hex, shown but never stated | the payload |
 
-All four use HMAC-SHA256, and agree on almost nothing else. The [Standard
+All four use HMAC-SHA256 and agree on almost nothing else. The [Standard
 Webhooks project](https://github.com/standard-webhooks/standard-webhooks), a spec from Zapier, Twilio, Svix and others, exists
 because of this: "the ecosystem is fragmented… Even high quality
 implementations vary, making them inherently incompatible."
@@ -118,8 +118,8 @@ timestamp, so a request someone copied, out of a log or a capture URL,
 verifies just as well the second time. Platforms that do sign one, such as
 [Stripe](https://docs.stripe.com/webhooks/signature) and [Slack](https://docs.slack.dev/authentication/verifying-requests-from-slack), let you reject anything too old. With these four, the
 only defence is remembering which events you have already handled. Check
-whether your platform gives you a delivery ID to do that with; not every one
-documents one. That belongs to the next post.
+whether your platform gives you a delivery ID to do that with; not all of
+them document one. That belongs to the next post.
 
 The hard part is not the code. It is knowing what goes into it, and that
 is where the docs fall short, in three ways.
@@ -163,7 +163,7 @@ leaves the platform, and the request is still a real one: real headers, real
 signature, real bytes.
 
 **What sends it.** A vendor's own test tool is not always a capture. Some
-forward real events: [the Stripe CLI](https://docs.stripe.com/cli/listen) and `[gh webhook forward](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/using-the-github-cli-to-forward-webhooks-for-testing)` relay events
+forward real events: [the Stripe CLI](https://docs.stripe.com/cli/listen) and [`gh webhook forward`](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/using-the-github-cli-to-forward-webhooks-for-testing) relay events
 from a sandbox or a test repository. [Shopify's CLI trigger](https://shopify.dev/docs/api/shopify-cli/app/app-webhook-trigger) does something
 else. It sends "a sample Admin API event topic payload" that will "always
 have the same payload", and the docs say plainly: "You can't use this method
@@ -200,7 +200,7 @@ next event type, or next month. That is what the rest of this post is for.
 
 What I used was the first row with test-account data: no setup, and
 nothing real exposed. If a platform cannot produce test events, the
-self-hosted rows are worth their setup. It costs less than a stranger
+self-hosted rows are worth their setup. The setup costs less than a stranger
 reading your customers' orders.
 
 ## Parse what you use
@@ -308,13 +308,13 @@ The payload you captured is true on the day you captured it. It will change,
 and the only question is whether anyone tells you first.
 
 **Some platforms announce, on their own schedule.** Shopify versions its
-API, and a stable version is "[Guaranteed not to change for its supported](https://shopify.dev/docs/api/usage/versioning)
-lifetime". When that lifetime ends, Shopify "[falls forward to using the next](https://shopify.dev/docs/api/admin-rest/usage/versioning)
-supported stable version", and your webhooks change shape whether or not you
+API, and a stable version is ["Guaranteed not to change for its supported
+lifetime"](https://shopify.dev/docs/api/usage/versioning). When that lifetime ends, Shopify ["falls forward to using the next
+supported stable version"](https://shopify.dev/docs/api/admin-rest/usage/versioning), and your webhooks change shape whether or not you
 were ready. Each delivery carries an [`X-Shopify-API-Version` header](https://shopify.dev/docs/apps/build/webhooks/delivery-structure) saying
-which version produced it, which is worth logging. [Stripe ties the event](https://docs.stripe.com/webhooks)
-structure to your account's API version. [SHOPLINE keeps a "Breaking Changes"](https://open-api.docs.shoplineapp.com/docs/coming-soon)
-page. All of that is real notice, but you only get it if you watch for it,
+which version produced it, which is worth logging. [Stripe ties the event
+structure to your account's API version](https://docs.stripe.com/webhooks). [SHOPLINE keeps a "Breaking Changes"
+page](https://open-api.docs.shoplineapp.com/docs/coming-soon). All of that is real notice, but you only get it if you watch for it,
 and the date is never yours.
 
 **Some say up front that they won't.** [LINE lists what it may change](https://developers.line.biz/en/docs/messaging-api/development-guidelines/)

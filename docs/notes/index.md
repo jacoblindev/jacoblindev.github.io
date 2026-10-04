@@ -10,4 +10,4 @@ off it. Written to think out loud, and to remember.
 
 ## Recent Articles
 
-* (Coming Soon)
+* [Webhooks are not API calls](/notes/webhooks-are-not-api-calls/)

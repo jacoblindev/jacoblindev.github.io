@@ -68,8 +68,8 @@ your webhook, it makes every one of those decisions for you:
   expires, Shopify ["falls forward to using the next supported stable
   version"](https://shopify.dev/docs/api/admin-rest/usage/versioning).
 
-What to do about timeouts, retries and duplicates is the next post in this
-series. This one is about what comes before all of them: knowing what the
+Timeouts, retries and duplicates are a subject of their own. This post is
+about what comes before all of them: knowing what the
 request actually is. That starts with a decision the list leaves out: how
 the platform proves a request came from it.
 
@@ -119,7 +119,7 @@ verifies just as well the second time. Platforms that do sign one, such as
 [Stripe](https://docs.stripe.com/webhooks/signature) and [Slack](https://docs.slack.dev/authentication/verifying-requests-from-slack), let you reject anything too old. With these four, the
 only defence is remembering which events you have already handled. Check
 whether your platform gives you a delivery ID to do that with; not all of
-them document one. That belongs to the next post.
+them document one. Deduplicating on it is a subject of its own.
 
 The hard part is not the code. It is knowing what goes into it, and that
 is where the docs fall short, in three ways.
@@ -298,9 +298,11 @@ alert on that ERROR, not just a line in a file.
 Then accept that the event is gone. You could store every raw request before
 parsing it and replay the ones that failed once the parser is fixed. But an
 order event is a buyer's name, phone number and address, and every copy you
-keep is one more you have to protect, restrict and delete on time. Unless
-you need replay, think twice before keeping it: the slow reconciliation poll
-from earlier recovers what you dropped. If you do need replay, that is a reason to put a queue in front of the processing, which is where the next post picks up.
+keep is one more you have to protect, restrict and delete on time. Unless you
+need replay, think twice before keeping it: the slow reconciliation poll from
+earlier recovers what you dropped. If you do need replay, that is a reason to
+put a queue in front of the processing, and a queue brings trade-offs of its
+own.
 
 ## Change on someone else's schedule
 
@@ -378,7 +380,7 @@ So build against the request:
   capture it, write the test cases from the docs and check them against the
   first real request.
 
-Everything here happens before you process an event. The next post in this
-series is about what happens after: whether to do the work inside the
-request or hand it to a queue, and why the answer depends on the work one
-event triggers.
+Everything here happens before you process an event. What happens after,
+whether to do the work inside the request or hand it to a queue, and why the
+answer depends on the work one event triggers, is a separate question, and the
+one I'd like to write about next.

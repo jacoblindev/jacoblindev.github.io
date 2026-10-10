@@ -382,5 +382,5 @@ So build against the request:
 
 Everything here happens before you process an event. What happens after,
 whether to do the work inside the request or hand it to a queue, and why the
-answer depends on the work one event triggers, is a separate question, and the
-one I'd like to write about next.
+answer depends on the work one event triggers, is a separate question, and
+the one [Webhooks: sync or queue](/notes/webhooks-sync-or-queue/) takes up.

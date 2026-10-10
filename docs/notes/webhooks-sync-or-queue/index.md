@@ -151,33 +151,32 @@ decides what happens next. Acknowledge first and queue the work, and the
 platform's job ends at your `200`. From then on, every retry is yours.
 
 ```mermaid
+---
+config:
+  sequence:
+    actorMargin: 10
+    width: 110
+    noteMargin: 6
+    messageMargin: 30
+---
 sequenceDiagram
-    accTitle: Sync: the platform owns the retry
-    accDescr: The platform sends the event. The receiver does the work inside the request, the work fails, and the receiver answers with an error or runs out of time. What happens next is up to the platform.
+    accTitle: Who owns the retry, in each design
+    accDescr: In the sync design the receiver does the work inside the request; when it fails, the receiver answers with an error or times out, and the platform decides whether to retry, give up or do nothing. In the queued design the receiver stores the event and answers 200, so the platform is done; when the work fails, the message is retried from the queue and then moved to the dead-letter queue.
     participant P as Platform
     participant R as Receiver
-    P->>R: event
-    Note over R: does the work, which fails
-    R-->>P: error, or no answer in time
-    Note over P: retries, gives up, or does nothing
-```
-
-```mermaid
-sequenceDiagram
-    accTitle: Queued: you own the retry
-    accDescr: The platform sends the event. The receiver stores it on the queue and answers 200, and the platform is done. A worker takes the message, the work fails, and the message goes back to the queue to be tried again, then to the dead-letter queue.
-    participant P as Platform
-    participant R as Receiver
-    participant Q as Queue
-    participant W as Worker
-    P->>R: event
-    R->>Q: store the event
-    R-->>P: 200
-    Note over P: done with this event
-    Q->>W: message
-    Note over W: does the work, which fails
-    W-->>Q: back on the queue
-    Note over Q: tried again, then moved to the dead-letter queue
+    participant Q as Queue + worker
+    alt Sync
+        P->>R: event
+        Note over R: work fails
+        R-->>P: error or timeout
+        Note over P: retry, give up,<br/>or nothing
+    else Queued
+        P->>R: event
+        R->>Q: store
+        R-->>P: 200
+        Note over P: done
+        Note over Q: work fails,<br/>retried, then<br/>dead-letter queue
+    end
 ```
 
 So the second question is what the platform does with a failure. The

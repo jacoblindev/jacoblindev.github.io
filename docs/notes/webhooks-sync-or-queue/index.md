@@ -161,10 +161,11 @@ config:
 ---
 sequenceDiagram
     accTitle: Who owns the retry, in each design
-    accDescr: In the sync design the receiver does the work inside the request; when it fails, the receiver answers with an error or times out, and the platform decides whether to retry, give up or do nothing. In the queued design the receiver stores the event and answers 200, so the platform is done; when the work fails, the message is retried from the queue and then moved to the dead-letter queue.
+    accDescr: In the sync design the receiver does the work inside the request; when it fails, the receiver answers with an error or times out, and the platform decides whether to retry, give up or do nothing. In the queued design the receiver stores the event and answers 200, so the platform is done; a worker takes the message from the queue, the work fails, and the message goes back to the queue to be retried, then moves to the dead-letter queue.
     participant P as Platform
     participant R as Receiver
-    participant Q as Queue + worker
+    participant Q as Queue
+    participant W as Worker
     alt Sync
         P->>R: event
         Note over R: work fails
@@ -175,7 +176,10 @@ sequenceDiagram
         R->>Q: store
         R-->>P: 200
         Note over P: done
-        Note over Q: work fails,<br/>retried, then<br/>dead-letter queue
+        Q->>W: message
+        Note over W: work fails
+        W-->>Q: back on the queue
+        Note over Q: retried, then<br/>dead-letter queue
     end
 ```
 

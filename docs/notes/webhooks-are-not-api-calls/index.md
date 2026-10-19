@@ -1,6 +1,8 @@
 ---
 title: Webhooks are not API calls
 description: A webhook is a contract someone else wrote. Capture a real request before you verify it, parse only what you use, and expect it to change on someone else's schedule.
+series: Webhooks in practice
+topic: Webhooks
 ---
 
 # Webhooks are not API calls

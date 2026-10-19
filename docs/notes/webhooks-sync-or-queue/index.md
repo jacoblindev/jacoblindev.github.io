@@ -1,6 +1,8 @@
 ---
 title: "Webhooks: sync or queue"
 description: Stripe, Slack and GitHub tell you to queue webhook processing. On a small middleware, sync is a fair place to start, if you have weighed the trade-offs first and watch for the signal to scale.
+series: Webhooks in practice
+topic: Webhooks
 ---
 
 # Webhooks: sync or queue

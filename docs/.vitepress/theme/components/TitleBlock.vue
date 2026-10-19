@@ -17,6 +17,12 @@ const lastUpdated = computed(() => {
 
 const currentYear = new Date().getFullYear()
 
+// The job this sheet belongs to: the post's series, else its topic, else the
+// site. Both are display names set by hand in the post's frontmatter.
+const project = computed(
+  () => frontmatter.value.series || frontmatter.value.topic || site.value.title
+)
+
 const isDoc = computed(() => frontmatter.value.layout !== 'home')
 </script>
 
@@ -26,7 +32,7 @@ const isDoc = computed(() => frontmatter.value.layout !== 'home')
       <!-- Row 1: Project Info -->
       <div class="tb-section project">
         <span class="tb-label">PROJECT</span>
-        <span class="tb-value">{{ site.title }}</span>
+        <span class="tb-value">{{ project }}</span>
       </div>
 
       <!-- Row 2: Sheet Info -->

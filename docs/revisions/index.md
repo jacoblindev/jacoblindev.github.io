@@ -52,6 +52,7 @@ the title block — says "planned" before a word is read.
 
 | Rev | Date | Change |
 |:---:|---|---|
+| **E** | 2026-10-19 | The footer's `PROJECT` names the series a post belongs to, or its topic, and `JLNotes` everywhere else. ([#8](https://github.com/jacoblindev/jacoblindev.github.io/pull/8)) |
 | **D** | 2026-10-03 | This page. The footer's `REV` links here, and its `DATE` shows when each page last changed. |
 | **C** | 2026-10-03 | Link previews: a shared link shows the page's title, description and a card image. A favicon, and the name JLNotes. ([#2](https://github.com/jacoblindev/jacoblindev.github.io/pull/2), [#3](https://github.com/jacoblindev/jacoblindev.github.io/pull/3), [#4](https://github.com/jacoblindev/jacoblindev.github.io/pull/4)) |
 | **B** | 2026-10-02 | Diagrams, written as text and drawn in the site's colours in light and dark mode. ([af6a00a](https://github.com/jacoblindev/jacoblindev.github.io/commit/af6a00a)) |

@@ -52,6 +52,7 @@ the title block — says "planned" before a word is read.
 
 | Rev | Date | Change |
 |:---:|---|---|
+| **F** | 2026-10-19 | On a phone, a wide diagram stops shrinking once its labels reach 12px and scrolls sideways instead, with a fade at the edge that has more. ([#9](https://github.com/jacoblindev/jacoblindev.github.io/pull/9)) |
 | **E** | 2026-10-19 | The footer's `PROJECT` names the series a post belongs to, or its topic, and `JLNotes` everywhere else. ([#8](https://github.com/jacoblindev/jacoblindev.github.io/pull/8)) |
 | **D** | 2026-10-03 | This page. The footer's `REV` links here, and its `DATE` shows when each page last changed. |
 | **C** | 2026-10-03 | Link previews: a shared link shows the page's title, description and a card image. A favicon, and the name JLNotes. ([#2](https://github.com/jacoblindev/jacoblindev.github.io/pull/2), [#3](https://github.com/jacoblindev/jacoblindev.github.io/pull/3), [#4](https://github.com/jacoblindev/jacoblindev.github.io/pull/4)) |
@@ -73,6 +74,10 @@ the title block — says "planned" before a word is read.
 - **Diagrams draw in the browser, not at build time.** They appear a moment
   after the page does. Pre-rendering them to SVG would need a headless browser
   in the build — more machinery than a few diagrams are worth.
+- **Wide diagrams scroll on a phone.** A diagram shrinks to fit the column,
+  but not past three-quarters of its size, where the labels would stop being
+  readable. A wider one scrolls sideways inside its box, so on a phone you
+  may not see all of it at once.
 
 <style>
 /* A date is one token; never break it across lines. */

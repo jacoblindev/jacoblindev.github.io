@@ -7,16 +7,25 @@
 // time, so vars.css stays the only place the palette is defined, and the
 // diagram re-renders when the appearance toggle flips them.
 import {useData} from 'vitepress'
-import {nextTick, onMounted, ref, watch} from 'vue'
+import {nextTick, onBeforeUnmount, onMounted, ref, watch} from 'vue'
 
 const props = defineProps<{ code: string }>()
 
 const {isDark} = useData()
 const svg = ref('')
 const error = ref('')
+const box = ref<HTMLElement | null>(null)
+// Which edges have more diagram past them; each one fades out as a scroll cue.
+const moreLeft = ref(false)
+const moreRight = ref(false)
 const source = decodeURIComponent(props.code)
 
 let seq = 0
+
+// The smallest scale a diagram shrinks to on a narrow screen. Labels are 16px
+// at natural size, so 0.75 keeps them at 12px; a wider diagram stops shrinking
+// there and scrolls sideways inside its box instead.
+const MIN_SCALE = 0.75
 
 function cssVar(name: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
@@ -84,18 +93,51 @@ async function render() {
     const id = `mermaid-${Math.random().toString(36).slice(2)}-${seq++}`
     svg.value = (await mermaid.render(id, source)).svg
     error.value = ''
+    await nextTick()
+    applyFloor()
   } catch (e) {
     error.value = e instanceof Error ? e.message : String(e)
   }
 }
 
-onMounted(render)
+// mermaid writes the natural width as an inline max-width on the SVG. A
+// min-width in px from it is fixed per diagram, so rotating the phone needs no
+// recalculation — only the scroll cue does, which the ResizeObserver handles.
+function applyFloor() {
+  const el = box.value?.querySelector('svg')
+  const natural = parseFloat(el?.style.maxWidth ?? '')
+  if (el && natural) el.style.minWidth = `${natural * MIN_SCALE}px`
+  updateCue()
+}
+
+function updateCue() {
+  const el = box.value
+  if (!el) return
+  moreLeft.value = el.scrollLeft > 1
+  moreRight.value = el.scrollLeft + el.clientWidth < el.scrollWidth - 1
+}
+
+let observer: ResizeObserver | undefined
+
+onMounted(() => {
+  render()
+  observer = new ResizeObserver(updateCue)
+  if (box.value) observer.observe(box.value)
+})
+onBeforeUnmount(() => observer?.disconnect())
 // The .dark class flips before the new variable values apply; wait a tick.
 watch(isDark, () => nextTick(render))
 </script>
 
 <template>
-  <div class="mermaid-diagram">
+  <!-- Focusable only when it scrolls, so a keyboard can scroll it too. -->
+  <div
+    ref="box"
+    class="mermaid-diagram"
+    :class="{'more-left': moreLeft, 'more-right': moreRight}"
+    :tabindex="moreLeft || moreRight ? 0 : undefined"
+    @scroll.passive="updateCue"
+  >
     <pre v-if="error" class="mermaid-error">Diagram error: {{ error }}</pre>
     <div v-else v-html="svg"></div>
   </div>
@@ -110,11 +152,25 @@ watch(isDark, () => nextTick(render))
 /* mermaid emits width="100%" with an inline max-width of the natural size.
    In a block container that means: natural size, shrinking on narrow screens.
    (A flex container instead collapses it to near-zero — width 100% of a
-   shrink-to-fit item.) */
+   shrink-to-fit item.) applyFloor() adds a min-width, so it stops shrinking
+   at MIN_SCALE and the box scrolls. */
 .mermaid-diagram :deep(svg) {
   display: block;
   margin: 0 auto;
   height: auto;
+}
+
+/* Scroll cue: fade the diagram out at an edge that has more past it. A mask
+   fades the content itself, so it works in both colour schemes and over the
+   drop shadow without knowing the background colour. */
+.mermaid-diagram.more-right {
+  mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+}
+.mermaid-diagram.more-left {
+  mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent);
+}
+.mermaid-diagram.more-left.more-right {
+  mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
 }
 
 /* mermaid measures labels in a detached node, then places them inside .vp-doc,

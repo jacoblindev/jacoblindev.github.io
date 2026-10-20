@@ -10,5 +10,6 @@ off it. Written to think out loud, and to remember.
 
 ## Recent Articles
 
+* [Webhook loops](/notes/webhook-loops/)
 * [Webhooks: sync or queue](/notes/webhooks-sync-or-queue/)
 * [Webhooks are not API calls](/notes/webhooks-are-not-api-calls/)

@@ -430,6 +430,6 @@ The recommended design, from a platform's docs or from an assistant, is a
 good place to start, because it lists what can go wrong. The design is
 deciding which of those you need to pay for now.
 
-What I'd like to write about next is what happens after the work: when
-processing one webhook writes to another system that sends webhooks of its
-own, and the two start answering each other.
+What happens after the work, when processing one webhook writes to another
+system that sends webhooks of its own and the two start answering each
+other, is the question [Webhook loops](/notes/webhook-loops/) takes up.

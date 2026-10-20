@@ -109,7 +109,8 @@ export default defineConfigWithTheme<ThemeConfig>({
           text: 'Notes',
           items: [
             {text: 'Webhooks are not API calls', link: '/notes/webhooks-are-not-api-calls/'},
-            {text: 'Webhooks: sync or queue', link: '/notes/webhooks-sync-or-queue/'}
+            {text: 'Webhooks: sync or queue', link: '/notes/webhooks-sync-or-queue/'},
+            {text: 'Webhook loops', link: '/notes/webhook-loops/'}
           ]
         }
       ]
